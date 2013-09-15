@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 
+    ofSetLogLevel(OF_LOG_VERBOSE);
     
     // Box2D
     // Make & init containder - balls
@@ -29,6 +30,8 @@ void testApp::setup(){
         pendulums.push_back(aPendulum);
     }
     
+    serial.setup();
+    
 }
 
 //--------------------------------------------------------------
@@ -43,7 +46,14 @@ void testApp::update(){
     if(springs.size() != 0){
         springs[0]->update(mouseX, mouseY);
     }
-       
+    
+    jointAngle = pendulums[0]->getRevJoint()->GetJointAngle();
+    jointAngle *= RAD_TO_DEG;
+    jointAngle += 180;    
+    
+//    cout<<"jointAngle: " << jointAngle<<endl;
+    serial.updateW((int)jointAngle);
+    
 }
 
 //--------------------------------------------------------------
@@ -88,6 +98,9 @@ void testApp::draw(){
     if (springs.size() != 0)
         springs[0]->renderAtBodyPosition();
     
+    // Serial
+    serial.report("Joint angle: ", jointAngle);
+    
 }
 
 void testApp::clearSprings(){
@@ -97,9 +110,8 @@ void testApp::clearSprings(){
     }
     
     springs.clear();
-//    cout<<"Spring is deleted."<<endl;
+    //    cout<<"Spring is deleted."<<endl;
 }
-
 
 void testApp::clearPendulums(){
 

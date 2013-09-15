@@ -19,6 +19,7 @@
 #include "Pendulum.h"
 #include "Spring.h"
 #include "MyAABBCallBack.h"
+#include "serialModule.h"
 
 class testApp : public ofBaseApp{
 protected:
@@ -66,12 +67,16 @@ protected:
     vector<Box*> boxes;
     vector<Pendulum*> pendulums;
     vector<Spring*> springs;
+    float jointAngle;
     
     // using mouse Dragging
     MyAABBCallBack callback;
     b2AABB      aabb;
     b2Body*     tBody;
     b2Vec2*     tTarget;
+    
+    SerialModule serial;
+
 
 
 
